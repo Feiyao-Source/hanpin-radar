@@ -1,0 +1,1 @@
+(() => { let current = 0; async function check(){try{const status=await fetch('/api/site-status',{cache:'no-store'}).then(r=>r.json());if(current && status.updatedAt>current) location.reload();current=status.updatedAt;}catch{}} check();setInterval(check,15000);})();

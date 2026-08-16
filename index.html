@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>汉聘雷达｜武汉招聘风评地图</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="extras.css" />
+  <link rel="stylesheet" href="map-interactions.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">H</span><span>汉聘雷达</span></a>
+    <nav><a class="active" href="#map">附近公司</a><a href="#guide">投稿指南</a><a href="#about">关于我们</a></nav>
+    <button class="report-btn" id="openReport">提交面试经历 <span>→</span></button>
+  </header>
+
+  <main>
+    <section class="hero" id="map">
+      <p class="eyebrow">WUHAN · JOB EXPERIENCE MAP</p>
+      <h1>找工作之前，<br><em>先听听真实的声音。</em></h1>
+      <p class="hero-copy">查看你身边 5 公里内正在招聘的公司，以及来自求职者的面试与办公环境记录。</p>
+      <div class="location-row">
+        <label class="location-chip">⌖ <input id="locationInput" value="武汉市 · 光谷广场" aria-label="当前位置" /><button id="useLocation" title="使用浏览器定位">⌖</button></label>
+        <label class="search"><span>⌕</span><input id="search" placeholder="搜索公司、行业或区域" /></label>
+      </div>
+      <div class="source-strip"><span>官方招聘来源</span><a href="https://www.hbggzp.cn" target="_blank" rel="noopener">湖北公共招聘网 ↗</a><a href="http://job.mohrss.gov.cn" target="_blank" rel="noopener">中国公共招聘网 ↗</a><a href="https://rsj.wuhan.gov.cn/" target="_blank" rel="noopener">武汉人社 ↗</a><small>跳转至来源站点查看最新岗位</small></div>
+    </section>
+
+    <section class="radar-layout">
+      <aside class="filter-panel">
+        <div class="panel-heading"><span>筛选</span><button id="reset">重置</button></div>
+        <div class="filter-group"><p>距离范围</p><div class="segments"><button class="selected">5 km</button><button>10 km</button><button>全武汉</button></div></div>
+        <div class="filter-group"><p>风评状态</p><label><input type="checkbox" checked data-filter="verified"/> 已核验评价</label><label><input type="checkbox" checked data-filter="alert"/> 需留意</label><label><input type="checkbox" checked data-filter="positive"/> 体验较好</label></div>
+        <div class="filter-group"><p>招聘领域</p><label><input type="checkbox" data-industry="互联网"/> 互联网</label><label><input type="checkbox" data-industry="教育"/> 教育培训</label><label><input type="checkbox" data-industry="零售"/> 零售服务</label><label><input type="checkbox" data-industry="制造"/> 制造业</label></div>
+        <div class="evidence-note"><b>✓ 证据优先</b><span>评价须含面试地点或环境照片，发布前经隐私与真实性审核。</span></div>
+      </aside>
+
+      <div class="map-card">
+        <div class="map-toolbar"><span><i></i> 以光谷广场为中心 · 5 km</span><button id="listToggle">列表视图 ☷</button></div>
+        <div class="map" id="mapCanvas">
+          <div class="map-label l1">东湖高新区</div><div class="map-label l2">关山大道</div><div class="map-label l3">鲁巷</div><div class="map-label l4">武汉大学</div>
+          <div class="ring ring1"></div><div class="ring ring2"></div><div class="user-dot" title="你的位置"></div>
+        </div>
+        <div class="map-legend"><span><i class="dot good"></i>体验较好</span><span><i class="dot alert"></i>需留意</span><span><i class="dot neutral"></i>评价较少</span></div>
+      </div>
+
+      <section class="company-results">
+        <div class="result-title"><div><p class="eyebrow">NEARBY RESULTS</p><h2>附近 <b id="resultCount">6</b> 家正在招聘</h2></div><select id="sort"><option>按距离排序</option><option>按最新评价</option><option>按风评分</option></select></div>
+        <div id="companies" class="company-list"></div>
+      </section>
+    </section>
+
+    <section class="guide" id="guide"><p class="eyebrow">YOUR EXPERIENCE MATTERS</p><h2>每一条经历，都帮下一个人少走弯路。</h2><div class="guide-grid"><article><b>01</b><h3>记录真实经历</h3><p>写下岗位、流程和实际沟通情况。</p></article><article><b>02</b><h3>上传环境证据</h3><p>面试地点或周边照片即可，不上传个人证件。</p></article><article><b>03</b><h3>审核后发布</h3><p>我们会隐藏人脸、车牌与敏感信息。</p></article></div></section>
+  </main>
+
+  <footer id="about"><span>汉聘雷达 · 武汉招聘信息互助社区</span><span>举报、纠错、数据处理或 Bug 反馈：<a href="mailto:1348465638@qq.com">1348465638@qq.com</a></span><span>所有内容为用户个人经历，不构成事实认定</span></footer>
+
+  <dialog id="companyDialog"><button class="close" aria-label="关闭">×</button><div id="dialogContent"></div></dialog>
+  <dialog id="locationDialog" class="location-dialog"><div class="location-request"><p class="eyebrow">LOCATION REQUIRED</p><h2>允许定位以查看附近招聘</h2><p>我们仅使用你的大致位置来筛选周边公司，不会公开你的精确坐标。</p><button class="submit" id="allowLocation">允许定位</button><button class="manual-location" id="manualLocation">我自己填写位置</button></div></dialog>
+  <dialog id="reportDialog"><button class="close" aria-label="关闭">×</button><form class="report-form" id="reportForm"><p class="eyebrow">SUBMIT EXPERIENCE</p><h2>发布公司与求职提醒</h2><p>可以发布尚无风评的公司；需附至少一张地点或环境照片，投稿会先进入审核队列。</p><label>公司名称<input id="reportCompany" required placeholder="例如：武汉某某科技有限公司" /></label><label>正在招聘的岗位<input id="reportRole" required placeholder="例如：产品运营实习生" /></label><label>面试 / 工作地点<input id="reportPlace" required placeholder="例如：光谷软件园 A 区" /></label><label>你从何处发现该招聘<select id="reportSource" required><option value="">请选择来源</option><option>湖北公共招聘网</option><option>中国公共招聘网</option><option>武汉人社 / 政府公告</option><option>公司官网 / 公众号</option><option>现场招聘会</option><option>其他</option></select></label><label>首次发现仍在招聘的日期<input id="reportFirstSeen" type="date" required /></label><label>面试体验评分<select id="reportScore" required><option value="">暂无风评 / 仅提醒</option><option value="5">5 · 很好</option><option value="4">4 · 较好</option><option value="3">3 · 一般</option><option value="2">2 · 需留意</option><option value="1">1 · 很差</option></select></label><label>提醒或风评说明<textarea id="reportNote" required minlength="20" placeholder="至少 20 字，描述岗位、流程或需要提醒求职者的情况…"></textarea></label><label class="upload" id="uploadLabel">＋ 上传面试地点或环境照片<input id="reportPhoto" type="file" accept="image/*" hidden required /></label><img id="photoPreview" alt="上传的环境照片预览" hidden /><p class="form-error" id="formError" role="alert"></p><button class="submit" type="submit">提交审核 →</button></form></dialog>
+  <script src="app.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="interactions.js"></script>
+  <script src="public-listings.js"></script>
+  <script src="approved-submissions.js"></script>
+  <script src="submission-api.js"></script>
+  <script src="live-refresh.js"></script>
+</body>
+</html>
