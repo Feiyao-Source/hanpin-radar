@@ -1,0 +1,12 @@
+{
+  "name": "hanpin-radar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "武汉招聘风评地图与投稿审核平台",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
