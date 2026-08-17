@@ -39,7 +39,7 @@
         <div class="panel-heading"><span>筛选</span><button id="reset">重置</button></div>
         <div class="filter-group"><p>查看范围</p><div class="segments"><button class="selected">5 km</button><button>10 km</button><button>全市</button></div></div>
         <div class="filter-group"><p>信息状态</p><label><input type="checkbox" checked data-filter="active"/> 可直接投递</label><label><input type="checkbox" checked data-filter="verify"/> 招聘页待核验</label><label><input type="checkbox" checked data-filter="profile"/> 公司档案</label></div>
-        <div class="filter-group"><p>技术领域</p><label><input type="checkbox" data-industry="开源基础软件"/> 开源基础软件</label><label><input type="checkbox" data-industry="开发者工具"/> 开发者工具</label><label><input type="checkbox" data-industry="云原生"/> 云原生</label><label><input type="checkbox" data-industry="数据库"/> 数据库</label></div>
+        <div class="filter-group"><p>行业类别</p><label><input type="checkbox" data-industry="技术类"/> 技术类</label><label><input type="checkbox" data-industry="服务类"/> 服务类</label><label><input type="checkbox" data-industry="制造业"/> 制造业</label><label><input type="checkbox" data-industry="教育培训"/> 教育培训</label><label><input type="checkbox" data-industry="医疗健康"/> 医疗健康</label><label><input type="checkbox" data-industry="金融商务"/> 金融商务</label><label><input type="checkbox" data-industry="建筑地产"/> 建筑地产</label><label><input type="checkbox" data-industry="交通物流"/> 交通物流</label><label><input type="checkbox" data-industry="零售消费"/> 零售消费</label><label><input type="checkbox" data-industry="文化传媒"/> 文化传媒</label><label><input type="checkbox" data-industry="农林牧渔"/> 农林牧渔</label><label><input type="checkbox" data-industry="公共事业"/> 公共事业</label><label><input type="checkbox" data-industry="其他"/> 其他</label></div>
         <div class="evidence-note"><b>✓ 证据与时效优先</b><span>招聘状态必须可追溯；评分只来自已审核投稿。刷新页面不会再主动请求定位。</span></div>
       </aside>
 
@@ -67,14 +67,15 @@
   <dialog id="companyDialog"><button class="close" aria-label="关闭">×</button><div id="dialogContent"></div></dialog>
   <dialog id="locationDialog" class="location-dialog"><div class="location-request"><p class="eyebrow">LOCATION REQUIRED</p><h2>允许定位以查看附近招聘</h2><p>我们仅使用你的大致位置来筛选周边公司，不会公开你的精确坐标。</p><button class="submit" id="allowLocation">允许定位</button><button class="manual-location" id="manualLocation">我自己填写位置</button></div></dialog>
   <dialog id="reportDialog"><button class="close" aria-label="关闭">×</button><form class="report-form" id="reportForm"><p class="eyebrow">SUBMIT EXPERIENCE</p><h2>发布公司与求职提醒</h2><p>可以发布尚无风评的公司；需附至少一张地点或环境照片，投稿会先进入审核队列。</p><label>公司名称<input id="reportCompany" required placeholder="例如：武汉某某科技有限公司" /></label><label>正在招聘的岗位<input id="reportRole" required placeholder="例如：产品运营实习生" /></label><label>面试 / 工作地点<input id="reportPlace" required placeholder="例如：光谷软件园 A 区" /></label><label>你从何处发现该招聘<select id="reportSource" required><option value="">请选择来源</option><option>湖北公共招聘网</option><option>中国公共招聘网</option><option>武汉人社 / 政府公告</option><option>公司官网 / 公众号</option><option>现场招聘会</option><option>其他</option></select></label><label>首次发现仍在招聘的日期<input id="reportFirstSeen" type="date" required /></label><label>面试体验评分<select id="reportScore" required><option value="">暂无风评 / 仅提醒</option><option value="5">5 · 很好</option><option value="4">4 · 较好</option><option value="3">3 · 一般</option><option value="2">2 · 需留意</option><option value="1">1 · 很差</option></select></label><label>提醒或风评说明<textarea id="reportNote" required minlength="20" placeholder="至少 20 字，描述岗位、流程或需要提醒求职者的情况…"></textarea></label><label class="upload" id="uploadLabel">＋ 上传面试地点或环境照片<input id="reportPhoto" type="file" accept="image/*" hidden required /></label><img id="photoPreview" alt="上传的环境照片预览" hidden /><p class="form-error" id="formError" role="alert"></p><button class="submit" type="submit">提交审核 →</button></form></dialog>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="interactions.js?v=7"></script>
   <script src="region-enhancements.js?v=1"></script>
   <script src="listing-enhancements.js?v=1"></script>
+  <script src="industry-enhancements.js?v=1"></script>
   <script src="public-listings.js?v=3"></script>
   <script src="approved-submissions.js?v=4"></script>
-  <script src="submission-api.js?v=2"></script>
+  <script src="submission-api.js?v=3"></script>
   <script src="live-refresh.js"></script>
 </body>
 </html>
