@@ -1,0 +1,7 @@
+(() => {
+  const province=document.querySelector('#provinceSelect'),city=document.querySelector('#citySelect'),address=document.querySelector('#addressInput'),locate=document.querySelector('#addressLocate');
+  const label=document.createElement('label');label.className='region-select';label.innerHTML='<span>区县</span><select id="areaSelect" aria-label="选择区县"><option value="">全部区县</option></select>';city.closest('label').after(label);const area=label.querySelector('select');let directory=[];
+  function fill(){const p=directory.find(x=>x.name===province.value),c=p?.children?.find(x=>x.name===city.value||(['市辖区','县'].includes(x.name)&&p.name===city.value)),areas=c?.children||[];area.innerHTML='<option value="">全部区县</option>'+areas.map(x=>`<option>${x.name}</option>`).join('');label.hidden=!areas.length}
+  fetch('https://unpkg.com/china-division@2.6.0/dist/pca-code.json',{cache:'force-cache',signal:AbortSignal.timeout(10000)}).then(r=>r.json()).then(data=>{directory=data;fill()}).catch(()=>{label.hidden=true});province.addEventListener('change',()=>setTimeout(fill));city.addEventListener('change',()=>setTimeout(fill));area.addEventListener('change',()=>{if(!area.value)return;address.value=`${province.value}${city.value}${area.value}`;document.querySelector('#locationStatus').textContent=`已选择 ${province.value} · ${city.value} · ${area.value}，可继续补充街道门牌或直接定位。`;address.focus()});
+  address.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();locate.click()}});
+})();
